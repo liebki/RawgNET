@@ -1,6 +1,5 @@
-
 # RawgNET
-An API-Wrapper to get a game including all it's data from https://rawg.io
+A wrapper for the API of wrag.io, to get a game including all it's data
 
 ## Technologies
 
@@ -12,6 +11,9 @@ An API-Wrapper to get a game including all it's data from https://rawg.io
 
 ## Features
 
+### New
+- Thanks to sgamesdev, I got reminded that the achievements are missing, those are included by now
+
 ### General
 - Get a "Game" object including the complete data like images, description and more..
 
@@ -20,12 +22,16 @@ An API-Wrapper to get a game including all it's data from https://rawg.io
 ## Example
 
 ```
-using (RawgClient client = new(new RawgClientOptions("API KEY OF RAWG.IO")))
+using (RawgClient client = new(new RawgClientOptions("YOUR KEY FROM https://rawg.io/login?forward=developer")))
 {
-    Game game = client.GetGameData("NAME OF GAME");
+    string query = "gtav";
+    Console.WriteLine($"Querying for: {query}");
+
+    Game game = client.GetGameData(query, true);
     if (!object.Equals(game, null))
     {
-        Console.WriteLine("Imagelink: " + game.BackgroundImage);
+        Console.WriteLine($"Output for: {game.Name} | {game.NameOriginal}\n");
+        Console.WriteLine(game.ToString());
     }
 }
 ```
@@ -52,7 +58,6 @@ At https://rawg.io/apidocs just press the "Get API Key" button.
 
 ## Roadmap
 
-- Speed up code
-- Make code more clean
+- Make code more clean especially the ""RawgRequest"" method!
 - Export "Newtonsoft.Json" nuget package with library
 - More to come..
