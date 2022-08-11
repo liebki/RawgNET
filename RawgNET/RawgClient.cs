@@ -14,14 +14,20 @@
             GC.SuppressFinalize(this);
         }
 
-        public Game GetGameData(string gamename)
+        /// <summary>
+        /// The publicy available method that is called
+        /// </summary>
+        /// <param name="gamename">Name of the game we'd like to query</param>
+        /// <param name="getAchievements">If we want to query for the achievements (takes a second longer)</param>
+        /// <returns></returns>
+        public Game GetGameData(string gamename, bool getAchievements)
         {
             Game game;
             if (!object.Equals(options.APIKEY, null) && options.APIKEY.Length > 10)
             {
                 if (!object.Equals(gamename, null) && gamename.Length > 1)
                 {
-                    game = RawgAccessManager.RawgRequest(gamename, options.APIKEY);
+                    game = RawgAccessManager.RawgRequest(gamename, options.APIKEY, getAchievements);
                 }
                 else
                 {

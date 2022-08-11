@@ -4,6 +4,9 @@ namespace RawgNET
 {
     public class Game
     {
+        public bool AchievementsAvailable { get; set; }
+        public List<Result>? Achievements { get; set; }
+
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
 
@@ -165,6 +168,11 @@ namespace RawgNET
 
         [JsonProperty("description_raw", NullValueHandling = NullValueHandling.Ignore)]
         public string DescriptionRaw { get; set; }
+
+        public override string ToString()
+        {
+            return $"{{{nameof(AchievementsAvailable)}={AchievementsAvailable}, {nameof(Achievements)}={Achievements}, {nameof(Id)}={Id}, {nameof(Slug)}={Slug}, {nameof(Name)}={Name}, {nameof(NameOriginal)}={NameOriginal}, {nameof(Description)}={Description}, {nameof(Metacritic)}={Metacritic}, {nameof(MetacriticPlatforms)}={MetacriticPlatforms}, {nameof(Released)}={Released}, {nameof(Tba)}={Tba}, {nameof(Updated)}={Updated}, {nameof(BackgroundImage)}={BackgroundImage}, {nameof(BackgroundImageAdditional)}={BackgroundImageAdditional}, {nameof(Website)}={Website}, {nameof(Rating)}={Rating}, {nameof(RatingTop)}={RatingTop}, {nameof(Ratings)}={Ratings}, {nameof(Reactions)}={Reactions}, {nameof(Added)}={Added}, {nameof(AddedByStatus)}={AddedByStatus}, {nameof(Playtime)}={Playtime}, {nameof(ScreenshotsCount)}={ScreenshotsCount}, {nameof(MoviesCount)}={MoviesCount}, {nameof(CreatorsCount)}={CreatorsCount}, {nameof(AchievementsCount)}={AchievementsCount}, {nameof(ParentAchievementsCount)}={ParentAchievementsCount}, {nameof(RedditUrl)}={RedditUrl}, {nameof(RedditName)}={RedditName}, {nameof(RedditDescription)}={RedditDescription}, {nameof(RedditLogo)}={RedditLogo}, {nameof(RedditCount)}={RedditCount}, {nameof(TwitchCount)}={TwitchCount}, {nameof(YoutubeCount)}={YoutubeCount}, {nameof(ReviewsTextCount)}={ReviewsTextCount}, {nameof(RatingsCount)}={RatingsCount}, {nameof(SuggestionsCount)}={SuggestionsCount}, {nameof(AlternativeNames)}={AlternativeNames}, {nameof(MetacriticUrl)}={MetacriticUrl}, {nameof(ParentsCount)}={ParentsCount}, {nameof(AdditionsCount)}={AdditionsCount}, {nameof(GameSeriesCount)}={GameSeriesCount}, {nameof(UserGame)}={UserGame}, {nameof(ReviewsCount)}={ReviewsCount}, {nameof(SaturatedColor)}={SaturatedColor}, {nameof(DominantColor)}={DominantColor}, {nameof(ParentPlatforms)}={ParentPlatforms}, {nameof(Platforms)}={Platforms}, {nameof(Stores)}={Stores}, {nameof(Developers)}={Developers}, {nameof(Genres)}={Genres}, {nameof(Tags)}={Tags}, {nameof(Publishers)}={Publishers}, {nameof(EsrbRating)}={EsrbRating}, {nameof(Clip)}={Clip}, {nameof(DescriptionRaw)}={DescriptionRaw}}}";
+        }
     }
 
     public partial class AddedByStatus

@@ -2,9 +2,9 @@
 {
     public class RawgClientOptions
     {
-        public RawgClientOptions(string? aPIKEY)
+        public RawgClientOptions(string? apikey)
         {
-            APIKEY = aPIKEY;
+            APIKEY = apikey;
         }
 
         public string? APIKEY { get; set; }
