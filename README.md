@@ -12,10 +12,10 @@ A wrapper for the API of wrag.io, to get a game including all it's data
 ## Features
 
 ### New
-- Thanks to sgamesdev, I got reminded that the achievements are missing, those are included by now
+- Thanks to sgamesdev, I got reminded that the screenshots are missing too, those are included by now
 
 ### General
-- Get a "Game" object including the complete data like images, description and more..
+- Get a "Game" object including the complete data like images, description, achievements, screenshots and many more things..
 
 ## Usage
 
@@ -24,15 +24,31 @@ A wrapper for the API of wrag.io, to get a game including all it's data
 ```
 using (RawgClient client = new(new RawgClientOptions("YOUR KEY FROM https://rawg.io/login?forward=developer")))
 {
-    string query = "gtav";
-    Console.WriteLine($"Querying for: {query}");
+	string query = "gtav";
+	Console.WriteLine($"Querying for: {query}");
 
-    Game game = client.GetGameData(query, true);
-    if (!object.Equals(game, null))
-    {
-        Console.WriteLine($"Output for: {game.Name} | {game.NameOriginal}\n");
-        Console.WriteLine(game.ToString());
-    }
+	if (client.IsGameExisting(query))
+	{
+		Game game = client.GetGameData(query, true, true);
+		if (!object.Equals(game, null))
+		{
+			Console.WriteLine($"Output for: {game.Name} | {game.NameOriginal}\n");
+		}
+		Console.WriteLine($"Achievements {Environment.NewLine}--------------");
+		foreach (Achievement item in game.Achievements)
+		{
+			Console.WriteLine($"------ {Environment.NewLine} Name: {item.Name} {Environment.NewLine} Description: {item.Description} {Environment.NewLine} Image: {item.Image} {Environment.NewLine}");
+		}
+		Console.WriteLine($"Screenshots {Environment.NewLine}--------------");
+		foreach (Screenshot item in game.Screenshots)
+		{
+			Console.WriteLine($"------ {Environment.NewLine} Id: {item.Id} {Environment.NewLine} Url: {item.Image} {Environment.NewLine} Image: {item.Image} {Environment.NewLine}");
+		}
+	}
+	else
+	{
+		Console.WriteLine("Game does not exist");
+	}
 }
 ```
 
@@ -59,5 +75,6 @@ At https://rawg.io/apidocs just press the "Get API Key" button.
 ## Roadmap
 
 - Make code more clean especially the ""RawgRequest"" method!
+- Clean up the messy RawgAccessManager
 - Export "Newtonsoft.Json" nuget package with library
 - More to come..
