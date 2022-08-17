@@ -5,7 +5,9 @@ namespace RawgNET
     public class Game
     {
         public bool AchievementsAvailable { get; set; }
-        public List<Result>? Achievements { get; set; }
+        public List<Achievement>? Achievements { get; set; }
+        public bool ScreenshotsAvailable { get; set; }
+        public List<Screenshot>? Screenshots { get; set; }
 
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }

@@ -2,7 +2,7 @@
 
 namespace RawgNET
 {
-    public class GameAchievement
+    public class AchievementResult
     {
         [JsonProperty("count", NullValueHandling = NullValueHandling.Ignore)]
         public long? Count { get; set; }
@@ -11,13 +11,13 @@ namespace RawgNET
         public Uri Next { get; set; }
 
         [JsonProperty("previous")]
-        public object Previous { get; set; }
+        public Uri Previous { get; set; }
 
         [JsonProperty("results", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Result> Results { get; set; }
+        public List<Achievement> Achievements { get; set; }
     }
 
-    public class Result
+    public class Achievement
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
