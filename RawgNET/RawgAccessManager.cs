@@ -16,22 +16,22 @@ namespace RawgNET
         internal static Game RawgRequest(string name, string rawgkey, bool getAchievements)
         {
             Game? GameReturnValue = null;
-            Task<Game> QueryTryGame = Task.Run(() => QueryGame(name, rawgkey));
-            QueryTryGame.Wait();
-            if (object.Equals(QueryTryGame.Result.BackgroundImage, null))
+            Task<Game> GameQueryResult = Task.Run(() => QueryGame(name, rawgkey));
+            GameQueryResult.Wait();
+            if (object.Equals(GameQueryResult.Result.BackgroundImage, null))
             {
-                Task<GameFallback> FallbackQueryTry = Task.Run(() => QueryFallback(name, rawgkey));
-                FallbackQueryTry.Wait();
-                if (FallbackQueryTry.Result.Redirect)
+                Task<GameFallback> GameFallbackquery = Task.Run(() => QueryFallback(name, rawgkey));
+                GameFallbackquery.Wait();
+                if (GameFallbackquery.Result.Redirect)
                 {
-                    Task<Game> SecondQueryTryGame = Task.Run(() => QueryGame(FallbackQueryTry.Result.Slug, rawgkey));
-                    QueryTryGame.Wait();
-                    QueryTryGame = SecondQueryTryGame;
+                    Task<Game> GameRequeryResult = Task.Run(() => QueryGame(GameFallbackquery.Result.Slug, rawgkey));
+                    GameQueryResult.Wait();
+                    GameQueryResult = GameRequeryResult;
                 }
             }
-            if (!object.Equals(QueryTryGame.Result.BackgroundImage, null))
+            if (!object.Equals(GameQueryResult.Result.BackgroundImage, null))
             {
-                GameReturnValue = QueryTryGame.Result;
+                GameReturnValue = GameQueryResult.Result;
                 if (object.Equals(GameReturnValue.Metacritic, null))
                 {
                     GameReturnValue.Metacritic = 0;
@@ -43,7 +43,7 @@ namespace RawgNET
                 if (getAchievements)
                 {
                     Task<GameAchievement> gameAchievementQuery = Task.Run(() => QueryAchievements(GameReturnValue.Slug, rawgkey));
-                    QueryTryGame.Wait();
+                    GameQueryResult.Wait();
 
                     if (gameAchievementQuery.Result.Count > 0)
                     {
@@ -59,6 +59,41 @@ namespace RawgNET
                 }
             }
             return GameReturnValue;
+        }
+
+        /// <summary>
+        /// A method, to see if a game exists in the first place
+        /// </summary>
+        /// <param name="name">Name of the game we'd like to query</param>
+        /// <param name="rawgkey">Your API-Key</param>
+        /// <returns></returns>
+        internal static bool RawgRequestGameExists(string name, string rawgkey)
+        {
+            Task<Game> GameQueryResult = Task.Run(() => QueryGame(name, rawgkey));
+            GameQueryResult.Wait();
+
+            if (object.Equals(GameQueryResult.Result.BackgroundImage, null))
+            {
+                Task<GameFallback> GameFallbackquery = Task.Run(() => QueryFallback(name, rawgkey));
+                GameFallbackquery.Wait();
+
+                if (GameFallbackquery.Result.Redirect)
+                {
+                    Task<Game> GameRequeryResult = Task.Run(() => QueryGame(GameFallbackquery.Result.Slug, rawgkey));
+                    GameQueryResult.Wait();
+                    GameQueryResult = GameRequeryResult;
+
+                    if (object.Equals(GameQueryResult.Result.BackgroundImage, null))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>

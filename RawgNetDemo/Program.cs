@@ -11,15 +11,22 @@ namespace RawgNetDemo
                 string query = "gtav";
                 Console.WriteLine($"Querying for: {query}");
 
-                Game game = client.GetGameData(query, true);
-                if (!object.Equals(game, null))
+                if (client.IsGameExisting(query))
                 {
-                    Console.WriteLine($"Output for: {game.Name} | {game.NameOriginal}\n");
+                    Game game = client.GetGameData(query, true);
+                    if (!object.Equals(game, null))
+                    {
+                        Console.WriteLine($"Output for: {game.Name} | {game.NameOriginal}\n");
+                    }
+                    Console.WriteLine($"Achievements {Environment.NewLine}--------------");
+                    foreach (Result item in game.Achievements)
+                    {
+                        Console.WriteLine($"------ {Environment.NewLine} Name: {item.Name} {Environment.NewLine} Description: {item.Description} {Environment.NewLine} Image: {item.Image} {Environment.NewLine}");
+                    }
                 }
-                Console.WriteLine($"Achievements {Environment.NewLine}--------------");
-                foreach (Result item in game.Achievements)
+                else
                 {
-                    Console.WriteLine($"------ {Environment.NewLine} Name: {item.Name} {Environment.NewLine} Description: {item.Description} {Environment.NewLine} Image: {item.Image} {Environment.NewLine}");
+                    Console.WriteLine("Game does not exist");
                 }
             }
         }
