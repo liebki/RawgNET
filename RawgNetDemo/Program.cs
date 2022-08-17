@@ -15,7 +15,11 @@ namespace RawgNetDemo
                 if (!object.Equals(game, null))
                 {
                     Console.WriteLine($"Output for: {game.Name} | {game.NameOriginal}\n");
-                    Console.WriteLine(game.ToString());
+                }
+                Console.WriteLine($"Achievements {Environment.NewLine}--------------");
+                foreach (Result item in game.Achievements)
+                {
+                    Console.WriteLine($"------ {Environment.NewLine} Name: {item.Name} {Environment.NewLine} Description: {item.Description} {Environment.NewLine} Image: {item.Image} {Environment.NewLine}");
                 }
             }
         }

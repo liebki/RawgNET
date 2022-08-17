@@ -4,6 +4,13 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>0.0.2</Version>
+    <Title>RawgNet</Title>
+    <Authors>liebki</Authors>
+    <Copyright>liebki</Copyright>
+    <PackageProjectUrl>https://github.com/liebki/RawgNET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/liebki/RawgNET</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>

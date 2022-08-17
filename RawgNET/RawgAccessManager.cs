@@ -50,7 +50,10 @@ namespace RawgNET
                         List<Result> AchievementList = new();
                         GameReturnValue.AchievementsAvailable = true;
                         AchievementList.AddRange(gameAchievementQuery.Result.Results);
-                        AchievementList.AddRange(QueryAllAchievements(gameAchievementQuery, new()));
+                        if (gameAchievementQuery.Result.Next?.AbsoluteUri.Contains("page=") == true)
+                        {
+                            AchievementList.AddRange(QueryAllAchievements(gameAchievementQuery, new()));
+                        }
                         GameReturnValue.Achievements = AchievementList;
                     }
                 }
