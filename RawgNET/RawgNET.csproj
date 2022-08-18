@@ -4,14 +4,26 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.0.4</Version>
+    <Version>0.0.5</Version>
     <Title>RawgNet</Title>
     <Authors>liebki</Authors>
     <Copyright>liebki</Copyright>
     <PackageProjectUrl>https://github.com/liebki/RawgNET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/liebki/RawgNET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Description>A wrapper for the API of wrag.io, to get a game including all it's data</Description>
+    <IncludeSymbols>False</IncludeSymbols>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Desktop\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

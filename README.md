@@ -6,13 +6,13 @@ A wrapper for the API of wrag.io, to get a game including all it's data
 ### Created using
 - .NET Core 6.0
 
-### Nuget(s)
-- Newtonsoft.Json (Needs to be added to your project too, until I figure out why)
+### Nugets/Dependencies used
+- Newtonsoft.Json
 
 ## Features
 
 ### New
-- Thanks to sgamesdev, I got reminded that the screenshots are missing too, those are included by now
+- A nuget package exists now, no more problems: https://www.nuget.org/packages/RawgNET
 
 ### General
 - Get a "Game" object including the complete data like images, description, achievements, screenshots and many more things..
@@ -42,7 +42,7 @@ using (RawgClient client = new(new RawgClientOptions("YOUR KEY FROM https://rawg
 		Console.WriteLine($"Screenshots {Environment.NewLine}--------------");
 		foreach (Screenshot item in game.Screenshots)
 		{
-			Console.WriteLine($"------ {Environment.NewLine} Id: {item.Id} {Environment.NewLine} Url: {item.Image} {Environment.NewLine} Image: {item.Image} {Environment.NewLine}");
+			Console.WriteLine($"------ {Environment.NewLine} Id: {item.Id} {Environment.NewLine} Url: {item.Image} {Environment.NewLine} Dimension: {item.Width}x{item.Height} {Environment.NewLine}");
 		}
 	}
 	else
@@ -74,7 +74,5 @@ At https://rawg.io/apidocs just press the "Get API Key" button.
 
 ## Roadmap
 
-- Make code more clean especially the ""RawgRequest"" method!
-- Clean up the messy RawgAccessManager
-- Export "Newtonsoft.Json" nuget package with library
+- Clean up the messy RawgAccessManager!
 - More to come..

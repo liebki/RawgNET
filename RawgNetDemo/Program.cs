@@ -26,7 +26,7 @@ namespace RawgNetDemo
                     Console.WriteLine($"Screenshots {Environment.NewLine}--------------");
                     foreach (Screenshot item in game.Screenshots)
                     {
-                        Console.WriteLine($"------ {Environment.NewLine} Id: {item.Id} {Environment.NewLine} Url: {item.Image} {Environment.NewLine} Image: {item.Image} {Environment.NewLine}");
+                        Console.WriteLine($"------ {Environment.NewLine} Id: {item.Id} {Environment.NewLine} Url: {item.Image} {Environment.NewLine} Dimension: {item.Width}x{item.Height} {Environment.NewLine}");
                     }
                 }
                 else

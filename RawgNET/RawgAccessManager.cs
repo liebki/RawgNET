@@ -181,7 +181,7 @@ namespace RawgNET
 
         private static async Task<ScreenshotResult> QueryScreenshots(string gamename, string rawgkey)
         {
-            string RawgRequestUrl = GameNameToAchievementQueryUrl(gamename, rawgkey);
+            string RawgRequestUrl = GameNameToScreenshotQueryUrl(gamename, rawgkey);
             string JsonResponse = "";
             using (HttpClient Client = new())
             {
@@ -229,6 +229,24 @@ namespace RawgNET
                 JsonResponse = await TaskResponse.Result.Content.ReadAsStringAsync();
             }
             return DeserializeGameJson(JsonResponse);
+        }
+
+        /// <summary>
+        /// Method to build a ready-to-query url (screenshots)
+        /// </summary>
+        /// <param name="gamename">Name of the game we'd like to query</param>
+        /// <param name="rawgkey">Your API-Key</param>
+        /// <returns></returns>
+        private static string GameNameToScreenshotQueryUrl(string gamename, string rawgkey)
+        {
+            string GameName = gamename;
+            GameName = GameName.ToLower();
+            if (gamename.Contains(' '))
+            {
+                GameName = GameName.Replace(" ", "-");
+            }
+            string reqUrl = RawgApiBaseUrl + GameName + $"/screenshots?key={rawgkey}";
+            return reqUrl;
         }
 
         /// <summary>
