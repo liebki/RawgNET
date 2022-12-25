@@ -6,6 +6,10 @@ A wrapper for the API of wrag.io, to get a game including all it's data
 ### Created using
 - .NET Core 6.0
 
+### Projects (I know of) using it:
+- https://supergames.cf (made by https://github.com/sgamesdev)
+	- Code not public, (obfuscated) tho
+
 ### Nugets/Dependencies used
 - Newtonsoft.Json
 
