@@ -7,7 +7,7 @@ namespace RawgNetDemo
     {
         static async Task Main(string[] args)
         {
-            using (RawgClient client = new(new ClientOptions("c535ca8bfe954571a55df5c7a5a64394")))
+            using (RawgClient client = new(new ClientOptions("YOUR KEY FROM https://rawg.io/login?forward=developer")))
             {
                 const string query = "gtav";
                 Console.WriteLine($"Querying for: {query}");
