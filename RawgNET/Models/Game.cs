@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace RawgNET
+namespace RawgNET.Models
 {
     public class Game
     {
@@ -310,21 +310,6 @@ namespace RawgNET
 
         [JsonProperty("recommended", NullValueHandling = NullValueHandling.Ignore)]
         public string Recommended { get; set; }
-    }
-
-    public partial class Rating
-    {
-        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
-        public long? Id { get; set; }
-
-        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
-        public string Title { get; set; }
-
-        [JsonProperty("count", NullValueHandling = NullValueHandling.Ignore)]
-        public long? Count { get; set; }
-
-        [JsonProperty("percent", NullValueHandling = NullValueHandling.Ignore)]
-        public double? Percent { get; set; }
     }
 
     public partial class Store

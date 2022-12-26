@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace RawgNET
+namespace RawgNET.Models
 {
     internal class GameFallback
     {
@@ -9,5 +9,11 @@ namespace RawgNET
 
         [JsonProperty("slug")]
         public string Slug { get; set; }
+    }
+
+    internal class NotFound
+    {
+        [JsonProperty("detail", NullValueHandling = NullValueHandling.Ignore)]
+        public string Detail { get; set; }
     }
 }

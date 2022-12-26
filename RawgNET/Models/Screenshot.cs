@@ -1,37 +1,37 @@
 ﻿using Newtonsoft.Json;
 
-namespace RawgNET
+namespace RawgNET.Models
 {
-    public class AchievementResult
+    public class ScreenshotResult
     {
         [JsonProperty("count", NullValueHandling = NullValueHandling.Ignore)]
         public long? Count { get; set; }
 
-        [JsonProperty("next", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("next")]
         public Uri Next { get; set; }
 
         [JsonProperty("previous")]
         public Uri Previous { get; set; }
 
         [JsonProperty("results", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Achievement> Achievements { get; set; }
+        public List<Screenshot> Screenshots { get; set; }
     }
 
-    public class Achievement
+    public class Screenshot
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
 
-        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
-        public string Name { get; set; }
-
-        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
-        public string Description { get; set; }
-
         [JsonProperty("image", NullValueHandling = NullValueHandling.Ignore)]
         public Uri Image { get; set; }
 
-        [JsonProperty("percent", NullValueHandling = NullValueHandling.Ignore)]
-        public string Percent { get; set; }
+        [JsonProperty("width", NullValueHandling = NullValueHandling.Ignore)]
+        public long? Width { get; set; }
+
+        [JsonProperty("height", NullValueHandling = NullValueHandling.Ignore)]
+        public long? Height { get; set; }
+
+        [JsonProperty("is_deleted", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? IsDeleted { get; set; }
     }
 }

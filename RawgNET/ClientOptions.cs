@@ -1,8 +1,8 @@
 ﻿namespace RawgNET
 {
-    public class RawgClientOptions
+    public class ClientOptions
     {
-        public RawgClientOptions(string? apikey)
+        public ClientOptions(string? apikey)
         {
             APIKEY = apikey;
         }

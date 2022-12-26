@@ -1,58 +1,51 @@
 # RawgNET
-A wrapper for the API of wrag.io, to get a game including all it's data
+A wrapper for the API of wrag.io, to get a game or creator including the data.
 
 ## Technologies
 
 ### Created using
 - .NET Core 6.0
 
-### Projects (I know of) using it:
-- https://supergames.cf (made by https://github.com/sgamesdev)
-	- Code not public, (obfuscated) tho
-
 ### Nugets/Dependencies used
 - Newtonsoft.Json
 
+### Some projects (I know of) using it:
+- https://supergames.cf (made by https://github.com/sgamesdev)
+
 ## Features
 
-### New
-- A nuget package exists now, no more problems: https://www.nuget.org/packages/RawgNET
+### Nuget
+- https://www.nuget.org/packages/RawgNET
 
 ### General
-- Get a "Game" object including the complete data like images, description, achievements, screenshots and many more things..
+- Through methods, like GetGame and IsGameExisting you can check if a game exists or get the data of it.
+- Through methods, like GetCreators,GetCreator and IsCreatorExisting you can check if a creator exists or get the data of them.
 
 ## Usage
 
 ## Example
 
 ```
-using (RawgClient client = new(new RawgClientOptions("YOUR KEY FROM https://rawg.io/login?forward=developer")))
+using (RawgClient client = new(new ClientOptions("YOUR KEY FROM https://rawg.io/login?forward=developer")))
 {
-	string query = "gtav";
+	const string query = "gtav";
 	Console.WriteLine($"Querying for: {query}");
 
-	if (client.IsGameExisting(query))
+	if (await client.IsGameExisting(query))
 	{
-		Game game = client.GetGameData(query, true, true);
-		if (!object.Equals(game, null))
-		{
-			Console.WriteLine($"Output for: {game.Name} | {game.NameOriginal}\n");
-		}
-		Console.WriteLine($"Achievements {Environment.NewLine}--------------");
-		foreach (Achievement item in game.Achievements)
-		{
-			Console.WriteLine($"------ {Environment.NewLine} Name: {item.Name} {Environment.NewLine} Description: {item.Description} {Environment.NewLine} Image: {item.Image} {Environment.NewLine}");
-		}
-		Console.WriteLine($"Screenshots {Environment.NewLine}--------------");
-		foreach (Screenshot item in game.Screenshots)
-		{
-			Console.WriteLine($"------ {Environment.NewLine} Id: {item.Id} {Environment.NewLine} Url: {item.Image} {Environment.NewLine} Dimension: {item.Width}x{item.Height} {Environment.NewLine}");
-		}
+		Game game = await client.GetGame(query, false, false);
+		Console.WriteLine($"Output for: {game.Name} | {game.NameOriginal} {Environment.NewLine} {game.Description} {Environment.NewLine}");
 	}
 	else
 	{
 		Console.WriteLine("Game does not exist");
 	}
+
+	string SomeExistingCreatorsId = "2612";
+	Creator cr = await client.GetCreator(SomeExistingCreatorsId);
+
+	Console.WriteLine($"The creator with the id {SomeExistingCreatorsId}");
+	Console.WriteLine(cr.ToString());
 }
 ```
 
@@ -66,6 +59,10 @@ I created this on windows 10 and tested it on other windows 10 machines, I cant 
 
 At https://rawg.io/apidocs just press the "Get API Key" button.
 
+#### What do I have to be aware of?
+
+Rawg.io has terms of use, please read them and be sure to comply to them - https://api.rawg.io/docs/
+
 ## License
 
 **Software:** RawgNET
@@ -78,5 +75,6 @@ At https://rawg.io/apidocs just press the "Get API Key" button.
 
 ## Roadmap
 
-- Clean up the messy RawgAccessManager!
+- Get everything from the api inside RawgNet (WIP)
+- Clean up the messy RawgAccessManager!!
 - More to come..
