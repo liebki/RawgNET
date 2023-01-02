@@ -33,5 +33,10 @@ namespace RawgNET.Models
 
         [JsonProperty("is_deleted", NullValueHandling = NullValueHandling.Ignore)]
         public bool? IsDeleted { get; set; }
+
+        public override string ToString()
+        {
+            return $"{{{nameof(Id)}={Id.ToString()}, {nameof(Image)}={Image}, {nameof(Width)}={Width.ToString()}, {nameof(Height)}={Height.ToString()}, {nameof(IsDeleted)}={IsDeleted.ToString()}}}";
+        }
     }
 }

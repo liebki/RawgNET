@@ -2,11 +2,11 @@
 {
     public class ClientOptions
     {
-        public ClientOptions(string? apikey)
+        public ClientOptions(string Key)
         {
-            APIKEY = apikey;
+            this.Key = Key;
         }
 
-        public string? APIKEY { get; set; }
+        public string Key { get; }
     }
 }

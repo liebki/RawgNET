@@ -1,7 +1,4 @@
-﻿using System;
-
-using Newtonsoft.Json;
-
+﻿using Newtonsoft.Json;
 
 namespace RawgNET.Models
 {

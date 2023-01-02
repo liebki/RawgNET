@@ -33,5 +33,10 @@ namespace RawgNET.Models
 
         [JsonProperty("percent", NullValueHandling = NullValueHandling.Ignore)]
         public string Percent { get; set; }
+
+        public override string ToString()
+        {
+            return $"{{{nameof(Id)}={Id.ToString()}, {nameof(Name)}={Name}, {nameof(Description)}={Description}, {nameof(Image)}={Image}, {nameof(Percent)}={Percent}}}";
+        }
     }
 }

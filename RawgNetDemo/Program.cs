@@ -3,31 +3,41 @@ using RawgNET.Models;
 
 namespace RawgNetDemo
 {
-    class Program
+    internal class Program
     {
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
         {
-            using (RawgClient client = new(new ClientOptions("YOUR KEY FROM https://rawg.io/login?forward=developer")))
+            RawgClient client = new(new ClientOptions("YOUR KEY FROM https://rawg.io/login?forward=developer"));
+            const string query = "gtav";
+
+            Console.WriteLine($"Querying the input {query}");
+
+            if (await client.IsGameExisting(query))
             {
-                const string query = "gtav";
-                Console.WriteLine($"Querying for: {query}");
+                Game game = await client.GetGame(query, true, true);
+                Console.WriteLine($"Name: {game.NameOriginal} - Rating: {game.Rating}");
 
-                if (await client.IsGameExisting(query))
+                if (game.ScreenshotsAvailable)
                 {
-                    Game game = await client.GetGame(query, false, false);
-                    Console.WriteLine($"Output for: {game.Name} | {game.NameOriginal} {Environment.NewLine} {game.Description} {Environment.NewLine}");
+                    Console.WriteLine($"First screenshot: {game.Screenshots.First().Image}");
                 }
-                else
+                if (game.AchievementsAvailable)
                 {
-                    Console.WriteLine("Game does not exist");
+                    Console.WriteLine($"First achievement: {game.Achievements.First().Name}");
                 }
-
-                string SomeExistingCreatorsId = "2612";
-                Creator cr = await client.GetCreator(SomeExistingCreatorsId);
-
-                Console.WriteLine($"The creator with the id {SomeExistingCreatorsId}");
-                Console.WriteLine(cr.ToString());
             }
+            else
+            {
+                Console.WriteLine("Game does not exist!");
+            }
+
+            Console.WriteLine();
+
+            string SomeExistingCreatorsId = "444";
+            Creator cr = await client.GetCreator(SomeExistingCreatorsId);
+
+            Console.WriteLine($"The creator with id {SomeExistingCreatorsId}");
+            Console.WriteLine($"Name: {cr.Name} - Image: {cr.Image}");
         }
     }
 }

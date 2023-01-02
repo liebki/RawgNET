@@ -2,23 +2,22 @@
 
 namespace RawgNET
 {
-    public class RawgClient : IDisposable
+    public class RawgClient
     {
-        private ClientOptions options;
+        private ClientOptions Options { get; }
 
         public RawgClient(ClientOptions clientOptions)
         {
-            options = clientOptions;
+            Options = clientOptions;
         }
 
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
-
+        /// <summary>
+        /// First method, to check before starting a query: Check that the name is not too short or empty
+        /// </summary>
+        /// <param name="gamename"></param>
         private void ClientOptionCheck(string gamename)
         {
-            if (object.Equals(gamename, null) || gamename.Length < 1)
+            if (string.IsNullOrEmpty(gamename) || gamename.Length < 1)
             {
                 NullReferenceException ErrorGame = new("The name of the game is empty or in the wrong format!");
                 throw ErrorGame;
@@ -26,9 +25,12 @@ namespace RawgNET
             ClientOptionCheckKey();
         }
 
+        /// <summary>
+        /// Second method, to check before starting a query: Check for some Key
+        /// </summary>
         private void ClientOptionCheckKey()
         {
-            if (object.Equals(options.APIKEY, null) || options.APIKEY.Length < 30 || options.APIKEY.Contains(' '))
+            if (string.IsNullOrEmpty(Options.Key) || Options.Key.Length < 30 || Options.Key.Contains(' '))
             {
                 NullReferenceException ErrorKey = new("ApiKey is empty or in the wrong format!");
                 throw ErrorKey;
@@ -36,48 +38,59 @@ namespace RawgNET
         }
 
         /// <summary>
-        /// Method to query if a game exists
+        /// Check if the following game exists
         /// </summary>
-        /// <param name="gamename">Name of the game you'd like to query</param>
-        /// <returns>A boolean, if the game exists or not</returns>
+        /// <param name="gamename">Name of the game</param>
+        /// <returns>Boolean, true game exists and false it does not</returns>
         public async Task<bool> IsGameExisting(string gamename)
         {
             ClientOptionCheck(gamename);
-            return await RawgManager.RawgRequestGameExists(gamename, options.APIKEY);
+            return await RawgManager.RawgRequestGameExists(gamename, Options.Key);
         }
 
         /// <summary>
-        /// Method to query a game
+        /// Get all the (available) data of a game
         /// </summary>
-        /// <param name="gamename">Name of the game we'd like to query</param>
+        /// <param name="gamename">Name of the game</param>
         /// <param name="getAchievements">If we want to query for the achievements (takes a second longer)</param>
-        /// <returns>Returns a game object</returns>
+        /// <returns>Game object</returns>
         public async Task<Game> GetGame(string gamename, bool getAchievements = false, bool getScreenshots = false)
         {
             ClientOptionCheck(gamename);
-            return await RawgManager.RawgRequest(gamename, options.APIKEY, getAchievements, getScreenshots);
+            return await RawgManager.RawgRequest(gamename, Options.Key, getAchievements, getScreenshots);
         }
 
         /// <summary>
-        /// Method to get all known creators, their games, ratings etc.
+        /// Get all (default: 100) creators, including their rating etc.
         /// </summary>
-        /// <returns>Returns a list of creators</returns>
+        /// <param name="maxresults">The max. results, to query</param>
+        /// <returns>List with creator objects</returns>
         public async Task<List<Creator>> GetCreators(int maxresults = 100)
         {
             ClientOptionCheckKey();
-            return await RawgManager.GetAllCreators(options.APIKEY, maxresults);
+            return await RawgManager.GetAllCreators(Options.Key, maxresults);
         }
 
+        /// <summary>
+        /// Get the following creator, including their rating etc.
+        /// </summary>
+        /// <param name="creatorid">The ID, the creator is known by (on RAWG)</param>
+        /// <returns></returns>
         public async Task<Creator> GetCreator(string creatorid)
         {
             ClientOptionCheckKey();
-            return await RawgManager.GetCreator(options.APIKEY, creatorid);
+            return await RawgManager.GetCreator(Options.Key, creatorid);
         }
 
+        /// <summary>
+        /// Check if the following creator exists
+        /// </summary>
+        /// <param name="creatorid">The ID, the creator is known by (on RAWG)</param>
+        /// <returns>Boolean, true creator exists and false they do not</returns>
         public async Task<bool> IsCreatorExisting(string creatorid)
         {
             ClientOptionCheckKey();
-            return await RawgManager.IsCreatorExisting(options.APIKEY, creatorid);
+            return await RawgManager.IsCreatorExisting(Options.Key, creatorid);
         }
     }
 }

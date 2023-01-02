@@ -1,4 +1,4 @@
-﻿namespace RawgNET
+﻿namespace RawgNET.Models
 {
     public enum QueryType
     {
