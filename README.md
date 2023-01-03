@@ -29,18 +29,18 @@ A wrapper for the API of wrag.io, to get a game or creator including all their d
 RawgClient client = new(new ClientOptions("YOUR KEY FROM https://rawg.io/login?forward=developer"));
 const string query = "gtav";
 
-Console.WriteLine($"Querying the input {query}");
-
 if (await client.IsGameExisting(query))
 {
+	Console.WriteLine($"Querying the input {query}");
 	Game game = await client.GetGame(query, true, true);
-	Console.WriteLine($"Name: {game.NameOriginal} - Rating: {game.Rating}");
 
-	if (game.ScreenshotsAvailable)
+	Console.WriteLine($"Name: {game.NameOriginal} - Rating: {game.Rating} - Image: {game.BackgroundImage}");
+
+	if (game.AreScreenshotsAvailable)
 	{
 		Console.WriteLine($"First screenshot: {game.Screenshots.First().Image}");
 	}
-	if (game.AchievementsAvailable)
+	if (game.AreAchievementsAvailable)
 	{
 		Console.WriteLine($"First achievement: {game.Achievements.First().Name}");
 	}

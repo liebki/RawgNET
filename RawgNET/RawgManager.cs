@@ -10,24 +10,24 @@ namespace RawgNET
         protected RawgManager()
         { }
 
-        private const string RawgApiBaseUrl = "https://rawg.io/api";
+        private const string BaseUrl = "https://rawg.io/api";
 
         #region Creator
 
         internal static async Task<Creator> GetCreator(string rawgkey, string creatorid)
         {
             string RawgRequestUrl = CreateNonGameQueryUrl(rawgkey, QueryType.Creator, creatorid);
-            string JsonResponse = string.Empty;
+            string WebResponseAsJson = string.Empty;
 
             using (HttpClient Client = new())
             {
                 Task<HttpResponseMessage> TaskResponse = Client.GetAsync(RawgRequestUrl);
                 TaskResponse.Wait();
 
-                JsonResponse = await TaskResponse.Result.Content.ReadAsStringAsync();
+                WebResponseAsJson = await TaskResponse.Result.Content.ReadAsStringAsync();
             }
 
-            Creator creator = DeserializeJsonToObject<Creator>(JsonResponse);
+            Creator creator = DeserializeJsonToObject<Creator>(WebResponseAsJson);
             creator.IsCreatorExisting = true;
 
             if (creator.Id == null)
@@ -41,19 +41,19 @@ namespace RawgNET
         internal static async Task<bool> IsCreatorExisting(string rawgkey, string creatorid)
         {
             string RawgRequestUrl = CreateNonGameQueryUrl(rawgkey, QueryType.Creator, creatorid);
-            string JsonResponse = string.Empty;
+            string WebResponseAsJson = string.Empty;
 
             using (HttpClient Client = new())
             {
                 Task<HttpResponseMessage> TaskResponse = Client.GetAsync(RawgRequestUrl);
                 TaskResponse.Wait();
 
-                JsonResponse = await TaskResponse.Result.Content.ReadAsStringAsync();
+                WebResponseAsJson = await TaskResponse.Result.Content.ReadAsStringAsync();
             }
 
-            if (JsonResponse.Contains("detail"))
+            if (WebResponseAsJson.Contains("detail"))
             {
-                NotFound CreatorNotFound = DeserializeJsonToObject<NotFound>(JsonResponse);
+                NotFound CreatorNotFound = DeserializeJsonToObject<NotFound>(WebResponseAsJson);
                 if (CreatorNotFound.Detail.Contains("Not found."))
                 {
                     return false;
@@ -92,10 +92,6 @@ namespace RawgNET
             return creators;
         }
 
-        /// <summary>
-        /// Recursive method, to get every creator
-        /// </summary>
-        /// <returns>List of creators</returns>
         private static async Task<List<Creator>> QueryAllCreators(CreatorResult creatorQuery, List<Creator> CreatorList, int leftresults = 0)
         {
             if (leftresults > 0)
@@ -133,7 +129,6 @@ namespace RawgNET
             if (GameQueryResult.BackgroundImage == null)
             {
                 GameFallback GameFallbackquery = await QueryFallback(name, rawgkey);
-
                 if (GameFallbackquery.Redirect)
                 {
                     Game GameRequeryResult = await Query<Game>(rawgkey, QueryType.Game, gamename: GameFallbackquery.Slug);
@@ -141,15 +136,15 @@ namespace RawgNET
                 }
             }
 
-            if (!object.Equals(GameQueryResult.BackgroundImage, null))
+            if (GameQueryResult.BackgroundImage != null)
             {
                 GameReturnValue = GameQueryResult;
-                if (object.Equals(GameReturnValue.Metacritic, null))
+                if (GameReturnValue.Metacritic == null)
                 {
                     GameReturnValue.Metacritic = 0;
                 }
 
-                GameReturnValue.AchievementsAvailable = false;
+                GameReturnValue.AreAchievementsAvailable = false;
                 GameReturnValue.Achievements = new();
 
                 if (getAchievements)
@@ -157,7 +152,7 @@ namespace RawgNET
                     await GetAndParse(rawgkey, GameReturnValue, QueryType.Achievement);
                 }
 
-                GameReturnValue.ScreenshotsAvailable = false;
+                GameReturnValue.AreScreenshotsAvailable = false;
                 GameReturnValue.Screenshots = new();
 
                 if (getScreenshots)
@@ -176,16 +171,16 @@ namespace RawgNET
 
                 if (gameAchievementQuery.Count > 0)
                 {
-                    List<Achievement> AchievementList = new();
-                    GameReturnValue.AchievementsAvailable = true;
+                    List<Achievement> FinalAchievementList = new();
+                    GameReturnValue.AreAchievementsAvailable = true;
 
-                    AchievementList.AddRange(gameAchievementQuery.Achievements);
+                    FinalAchievementList.AddRange(gameAchievementQuery.Achievements);
                     if (gameAchievementQuery.Next?.AbsoluteUri.Contains("page=") == true)
                     {
                         dynamic x = await QueryEverything(gameAchievementQuery, new());
-                        AchievementList.AddRange(((List<Achievement>)x));
+                        FinalAchievementList.AddRange(((List<Achievement>)x));
                     }
-                    GameReturnValue.Achievements = AchievementList;
+                    GameReturnValue.Achievements = FinalAchievementList;
                 }
             }
             else
@@ -193,16 +188,16 @@ namespace RawgNET
                 ScreenshotResult gameScreenshotQuery = await Query<ScreenshotResult>(rawgkey, QueryType.Screenshot, gamename: GameReturnValue.Slug);
                 if (gameScreenshotQuery.Count > 0)
                 {
-                    List<Screenshot> ScreenshotList = new();
-                    GameReturnValue.ScreenshotsAvailable = true;
+                    List<Screenshot> FinalScreenshotList = new();
+                    GameReturnValue.AreScreenshotsAvailable = true;
 
-                    ScreenshotList.AddRange(gameScreenshotQuery.Screenshots);
+                    FinalScreenshotList.AddRange(gameScreenshotQuery.Screenshots);
                     if (gameScreenshotQuery.Next?.AbsoluteUri.Contains("page=") == true)
                     {
                         dynamic x = await QueryEverything(gameScreenshotQuery, new());
-                        ScreenshotList.AddRange(((List<Screenshot>)x));
+                        FinalScreenshotList.AddRange(((List<Screenshot>)x));
                     }
-                    GameReturnValue.Screenshots = ScreenshotList;
+                    GameReturnValue.Screenshots = FinalScreenshotList;
                 }
             }
         }
@@ -210,14 +205,17 @@ namespace RawgNET
         internal static async Task<bool> RawgRequestGameExists(string name, string rawgkey)
         {
             Game GameQueryResult = await Query<Game>(rawgkey, QueryType.Game, gamename: name);
-
-            if (object.Equals(GameQueryResult.BackgroundImage, null) && !string.IsNullOrEmpty(GameQueryResult.Slug))
+            if (!string.IsNullOrEmpty(GameQueryResult.Slug))
             {
-                Game SlugTry = await Query<Game>(rawgkey, QueryType.Game, gamename: GameQueryResult.Slug);
-                if (SlugTry.Id != null && SlugTry.BackgroundImage != null)
+                if (GameQueryResult.Id == null)
                 {
-                    return true;
+                    Game GameQuerySlug = await Query<Game>(rawgkey, QueryType.Game, gamename: name);
+                    if (GameQuerySlug.Id != null)
+                    {
+                        return true;
+                    }
                 }
+                return true;
             }
             return false;
         }
@@ -225,16 +223,16 @@ namespace RawgNET
         private static async Task<GameFallback> QueryFallback(string gamename, string rawgkey)
         {
             string RawgRequestUrl = CreateQueryUrl(gamename, rawgkey, QueryType.Game);
-            string JsonResponse = string.Empty;
+            string WebResponseAsJson = string.Empty;
 
             using (HttpClient Client = new())
             {
                 Task<HttpResponseMessage> TaskResponse = Client.GetAsync(RawgRequestUrl);
                 TaskResponse.Wait();
 
-                JsonResponse = await TaskResponse.Result.Content.ReadAsStringAsync();
+                WebResponseAsJson = await TaskResponse.Result.Content.ReadAsStringAsync();
             }
-            return DeserializeJsonToObject<GameFallback>(JsonResponse);
+            return DeserializeJsonToObject<GameFallback>(WebResponseAsJson);
         }
 
         #endregion Game
@@ -275,15 +273,15 @@ namespace RawgNET
         /// <returns>A suitable object, depending on the QueryType input</returns>
         private static async Task<T> QueryMorePages<T>(string page, QueryType type)
         {
-            string JsonResponse = string.Empty;
+            string WebResponseAsJson = string.Empty;
             using (HttpClient Client = new())
             {
                 Task<HttpResponseMessage> TaskResponse = Client.GetAsync(page);
                 TaskResponse.Wait();
 
-                JsonResponse = await TaskResponse.Result.Content.ReadAsStringAsync();
+                WebResponseAsJson = await TaskResponse.Result.Content.ReadAsStringAsync();
             }
-            return DeserializeJsonToObject<T>(JsonResponse);
+            return DeserializeJsonToObject<T>(WebResponseAsJson);
         }
 
         /// <summary>
@@ -297,7 +295,7 @@ namespace RawgNET
         private static async Task<T> Query<T>(string rawgkey, QueryType type, string gamename = "", string creatorid = "")
         {
             string RawgRequestUrl = CreateQueryUrl(gamename, rawgkey, type);
-            string JsonResponse = string.Empty;
+            string WebResponseAsJson = string.Empty;
 
             if (type == QueryType.Creator || type == QueryType.CreatorList)
             {
@@ -309,9 +307,9 @@ namespace RawgNET
                 Task<HttpResponseMessage> TaskResponse = Client.GetAsync(RawgRequestUrl);
                 TaskResponse.Wait();
 
-                JsonResponse = await TaskResponse.Result.Content.ReadAsStringAsync();
+                WebResponseAsJson = await TaskResponse.Result.Content.ReadAsStringAsync();
             }
-            return DeserializeJsonToObject<T>(JsonResponse);
+            return DeserializeJsonToObject<T>(WebResponseAsJson);
         }
 
         /// <summary>
@@ -323,7 +321,7 @@ namespace RawgNET
         /// <returns>The URL, that is used when querying</returns>
         private static string CreateNonGameQueryUrl(string rawgkey, QueryType type, string creatorid = "")
         {
-            string reqUrl = RawgApiBaseUrl;
+            string reqUrl = BaseUrl;
             if (type == QueryType.CreatorList)
             {
                 reqUrl += "/creators";
@@ -352,7 +350,7 @@ namespace RawgNET
                 GameName = GameName.Replace(" ", "-");
             }
 
-            string reqUrl = $"{RawgApiBaseUrl}/games/{GameName}";
+            string reqUrl = $"{BaseUrl}/games/{GameName}";
             if (type == QueryType.Game)
             {
                 reqUrl += $"?search_precise=false&search_exact=false&key={rawgkey}";
