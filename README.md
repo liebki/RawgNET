@@ -26,7 +26,7 @@ A wrapper for the API of wrag.io, to get a game or creator including all their d
 ## Example
 
 ```
-RawgClient client = new(new ClientOptions("YOUR KEY FROM https://rawg.io/login?forward=developer"));
+RawgClient client = new(new ClientOptions("YOUR KEY FROM https://rawg.io/apidocs"));
 const string query = "gtav";
 
 if (await client.IsGameExisting(query))
