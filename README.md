@@ -9,8 +9,8 @@ A wrapper for the API of wrag.io, to get a game or creator including all their d
 ### NuGet/Dependencies used
 - Newtonsoft.Json
 
-### Some projects (I know of) using it:
-- https://supergames.cf (made by https://github.com/sgamesdev)
+### Projects/People (I know of) using it:
+- https://github.com/sgamesdev)
 
 ## Features
 
@@ -18,8 +18,8 @@ A wrapper for the API of wrag.io, to get a game or creator including all their d
 - https://www.nuget.org/packages/RawgNET
 
 ### General
-- Through methods, like GetGame and IsGameExisting you can check if a game exists or get the data of it.
-- Through methods, like GetCreators, GetCreator and IsCreatorExisting you can check if a creator exists or get the data of them.
+- Through methods, like ```GetGame()``` and ```IsGameExisting()``` you can check if a game exists or get the data of it.
+- Through methods, like ```GetCreators()```, ```GetCreator()``` and ```IsCreatorExisting()``` you can check if a creator exists or get the data of them.
 
 ## Usage
 
@@ -60,10 +60,6 @@ Console.WriteLine($"Name: {cr.Name} - Image: {cr.Image}");
 ```
 
 ## FAQ
-
-#### Does this work on every OS?
-
-I created this on Windows 10 and tested it on other Windows 10 machines, I can't guarantee anything for other operating systems or versions. But it should work everywhere, where Core 6 works.
 
 #### Where do I get an API-Key?
 

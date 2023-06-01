@@ -305,11 +305,99 @@ namespace RawgNET.Models
 
     public partial class Requirements
     {
+        private Dictionary<string, string> MinimumValues = new();
+
+        private Dictionary<string, string> RecommendedValues = new();
+
         [JsonProperty("minimum", NullValueHandling = NullValueHandling.Ignore)]
         public string Minimum { get; set; }
 
         [JsonProperty("recommended", NullValueHandling = NullValueHandling.Ignore)]
         public string Recommended { get; set; }
+
+        /// <summary>
+        /// Get the components and values - Use with caution, since the strings are parsed it could throw an exception
+        /// </summary>
+        public Dictionary<string, string> MinimumParsed()
+        {
+            if (!string.IsNullOrEmpty(this.Minimum))
+            {
+                if (this.Minimum.Contains("OS:"))
+                {
+                    this.MinimumValues.Add("OS", CleanString(this.Minimum.Split("OS:")[1].Split("Processor:")[0]));
+                }
+                if (this.Minimum.Contains("Processor:"))
+                {
+                    this.MinimumValues.Add("CPU", CleanString(this.Minimum.Split("Processor:")[1].Split("Memory:")[0]));
+                }
+                if (this.Minimum.Contains("Memory:"))
+                {
+                    this.MinimumValues.Add("RAM", CleanString(this.Minimum.Split("Memory:")[1].Split("Graphics:")[0]));
+                }
+                if (this.Minimum.Contains("Graphics:"))
+                {
+                    string GpuValue = CleanString(this.Minimum.Split("Graphics:")[1].Split("Storage:")[0]);
+                    if (GpuValue.Contains("DirectX:", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        this.MinimumValues.Add("GPU", GpuValue.Split("DirectX:")[0]);
+                    }
+                    else
+                    {
+                        this.MinimumValues.Add("GPU", GpuValue);
+                    }
+                }
+                if (this.Minimum.Contains("Storage:"))
+                {
+                    this.MinimumValues.Add("STORAGE", CleanString(this.Minimum.Split("Storage:")[1].Split("available space")[0].Trim()));
+                }
+            }
+
+            return MinimumValues;
+        }
+
+        /// <summary>
+        /// Get the components and values - Use with caution, since the strings are parsed it could throw an exception
+        /// </summary>
+        public Dictionary<string, string> RecommendedParsed()
+        {
+            if (!string.IsNullOrEmpty(this.Recommended))
+            {
+                if (this.Recommended.Contains("OS:"))
+                {
+                    this.RecommendedValues.Add("OS", CleanString(this.Recommended.Split("OS:")[1].Split("Processor:")[0]));
+                }
+                if (this.Recommended.Contains("Processor:"))
+                {
+                    this.RecommendedValues.Add("CPU", CleanString(this.Recommended.Split("Processor:")[1].Split("Memory:")[0]));
+                }
+                if (this.Recommended.Contains("Memory:"))
+                {
+                    this.RecommendedValues.Add("RAM", CleanString(this.Recommended.Split("Memory:")[1].Split("Graphics:")[0]));
+                }
+                if (this.Recommended.Contains("Graphics:"))
+                {
+                    string GpuValue = CleanString(this.Recommended.Split("Graphics:")[1].Split("Storage:")[0]);
+                    if (GpuValue.Contains("DirectX:", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        this.RecommendedValues.Add("GPU", GpuValue.Split("DirectX:")[0]);
+                    }
+                    else
+                    {
+                        this.RecommendedValues.Add("GPU", GpuValue);
+                    }
+                }
+                if (this.Recommended.Contains("Storage:"))
+                {
+                    this.RecommendedValues.Add("STORAGE", CleanString(this.Recommended.Split("Storage:")[1].Split("available space")[0].Trim()));
+                }
+            }
+            return RecommendedValues;
+        }
+
+        private static string CleanString(string requirementString)
+        {
+            return requirementString.Replace("\n", string.Empty).Replace("\r", string.Empty).Replace(Environment.NewLine, string.Empty);
+        }
     }
 
     public partial class Store

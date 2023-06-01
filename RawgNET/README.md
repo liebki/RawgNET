@@ -2,7 +2,7 @@
 The wrapper for the API of wrag.io, to get a game or creator including the data.
 
 ```
-RawgClient client = new(new ClientOptions("YOUR KEY FROM https://rawg.io/login?forward=developer"));
+RawgClient client = new(new ClientOptions("YOUR KEY FROM https://rawg.io/apidocs"));
 const string query = "gtav";
 
 if (await client.IsGameExisting(query))
@@ -27,10 +27,10 @@ else
 }
 
 Console.WriteLine();
-
 string SomeExistingCreatorsId = "444";
-Creator cr = await client.GetCreator(SomeExistingCreatorsId);
 
+Creator cr = await client.GetCreator(SomeExistingCreatorsId);
 Console.WriteLine($"The creator with id {SomeExistingCreatorsId}");
+
 Console.WriteLine($"Name: {cr.Name} - Image: {cr.Image}");
 ```

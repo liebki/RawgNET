@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.0.9</Version>
+    <Version>0.1</Version>
     <Title>RawgNet</Title>
     <Authors>liebki</Authors>
     <Copyright>liebki</Copyright>
@@ -12,17 +12,18 @@
     <RepositoryUrl>https://github.com/liebki/RawgNET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Description>A wrapper for the API of wrag.io, to get all the data</Description>
+    <Description>A wrapper for wrag.io, to get data of games, platforms, creators etc.</Description>
     <IncludeSymbols>False</IncludeSymbols>
     <PackageIcon>uxwing-icon.png</PackageIcon>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <PackageTags>rawg.io, wrapper, core6</PackageTags>
+    <PackageTags>rawg.io, wrapper, core6, dotnet, api, gaming</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>Enhanced the Requirements, so RecommendedParsed() and MinimumParsed() can be called, to get a Dictionary&lt;string, string&gt; in order to get single components like CPU, GPU etc. if available.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
