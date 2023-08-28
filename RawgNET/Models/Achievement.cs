@@ -2,7 +2,7 @@
 
 namespace RawgNET.Models
 {
-    public class AchievementResult
+    public class AchievementResult : BaseResult<Achievement>
     {
         [JsonProperty("count", NullValueHandling = NullValueHandling.Ignore)]
         public long? Count { get; set; }
@@ -14,7 +14,7 @@ namespace RawgNET.Models
         public Uri Previous { get; set; }
 
         [JsonProperty("results", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Achievement> Achievements { get; set; }
+        public IEnumerable<Achievement> Achievements { get; set; }
     }
 
     public class Achievement

@@ -2,7 +2,7 @@
 
 namespace RawgNET.Models
 {
-    public class ScreenshotResult
+    public class ScreenshotResult : BaseResult<Screenshot>
     {
         [JsonProperty("count", NullValueHandling = NullValueHandling.Ignore)]
         public long? Count { get; set; }
@@ -14,7 +14,7 @@ namespace RawgNET.Models
         public Uri Previous { get; set; }
 
         [JsonProperty("results", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Screenshot> Screenshots { get; set; }
+        public IEnumerable<Screenshot> Screenshots { get; set; }
     }
 
     public class Screenshot

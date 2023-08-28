@@ -1,4 +1,4 @@
-﻿namespace RawgNET
+﻿namespace RawgNET.Manager
 {
     public class ClientOptions
     {

@@ -1,4 +1,4 @@
-﻿using RawgNET;
+﻿using RawgNET.Manager;
 using RawgNET.Models;
 
 namespace RawgNetDemo
@@ -7,23 +7,31 @@ namespace RawgNetDemo
     {
         private static async Task Main(string[] args)
         {
-            RawgClient client = new(new ClientOptions("YOUR KEY FROM https://rawg.io/login?forward=developer"));
-            const string query = "gtav";
+            RawgClient client = new(new ClientOptions("YOUR KEY FROM https://rawg.io/apidocs"));
+            const string query = "overwatch";
 
             if (await client.IsGameExisting(query))
             {
-                Console.WriteLine($"Querying the input {query}");
+                Console.WriteLine($"Querying the input '{query}'");
+
+                // Fetch detailed information about the game
                 Game game = await client.GetGame(query, true, true);
 
-                Console.WriteLine($"Name: {game.NameOriginal} - Rating: {game.Rating} - Image: {game.BackgroundImage}");
+                Console.WriteLine($"Game Name: {game.NameOriginal}");
+                Console.WriteLine($"Rating: {game.Rating}");
+                Console.WriteLine($"Background Image: {game.BackgroundImage}");
+                Console.WriteLine($"Metacritic Score: {game.Metacritic}");
+                Console.WriteLine($"Release Date: {game.Released}");
+                Console.WriteLine($"Platforms: {string.Join(", ", game.Platforms.Select(p => p.Platform.Name))}");
 
                 if (game.AreScreenshotsAvailable)
                 {
-                    Console.WriteLine($"First screenshot: {game.Screenshots.First().Image}");
+                    Console.WriteLine($"First Screenshot: {game.Screenshots.First().Image}");
                 }
+
                 if (game.AreAchievementsAvailable)
                 {
-                    Console.WriteLine($"First achievement: {game.Achievements.First().Name}");
+                    Console.WriteLine($"First Achievement: {game.Achievements.First().Name}");
                 }
             }
             else
@@ -33,11 +41,21 @@ namespace RawgNetDemo
 
             Console.WriteLine();
 
-            string SomeExistingCreatorsId = "444";
-            Creator cr = await client.GetCreator(SomeExistingCreatorsId);
+            string someExistingCreatorsId = "333";
+            if (await client.IsCreatorExisting(someExistingCreatorsId))
+            {
+                Creator creator = await client.GetCreator(someExistingCreatorsId);
 
-            Console.WriteLine($"The creator with id {SomeExistingCreatorsId}");
-            Console.WriteLine($"Name: {cr.Name} - Image: {cr.Image}");
+                Console.WriteLine($"Creator with ID {someExistingCreatorsId}");
+                Console.WriteLine($"Name: {creator.Name}");
+                Console.WriteLine($"Image URL: {creator.Image}");
+                Console.WriteLine($"Background Image URL: {creator.ImageBackground}");
+                Console.WriteLine($"Number of Games: {creator.GamesCount}");
+            }
+            else
+            {
+                Console.WriteLine($"Creator with ID {someExistingCreatorsId} does not exist!");
+            }
         }
     }
 }

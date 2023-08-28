@@ -1,5 +1,5 @@
 # RawgNET
-A wrapper for the API of wrag.io, to get a game or creator including all their data.
+A wrapper for the API of rawg.io, to get a game or creator including all their data.
 
 ## Technologies
 
@@ -10,53 +10,53 @@ A wrapper for the API of wrag.io, to get a game or creator including all their d
 - Newtonsoft.Json
 
 ### Projects/People (I know of) using it:
-- https://github.com/sgamesdev)
+- [GitHub Repository](https://github.com/sgamesdev)
 
 ## Features
 
 ### Nuget
-- https://www.nuget.org/packages/RawgNET
+- [NuGet Package](https://www.nuget.org/packages/RawgNET)
 
 ### General
-- Through methods, like ```GetGame()``` and ```IsGameExisting()``` you can check if a game exists or get the data of it.
-- Through methods, like ```GetCreators()```, ```GetCreator()``` and ```IsCreatorExisting()``` you can check if a creator exists or get the data of them.
+- Through methods, like `GetGame()` and `IsGameExisting()`, you can check if a game exists or get the data of it.
+- Through methods, like `GetCreators()`, `GetCreator()`, and `IsCreatorExisting()`, you can check if a creator exists or get the data of them.
 
 ## Usage
 
-## Example
+## Example (see the "RawgNetDemo" project)
 
-```
+```csharp
 RawgClient client = new(new ClientOptions("YOUR KEY FROM https://rawg.io/apidocs"));
-const string query = "gtav";
+const string query = "overwatch";
 
 if (await client.IsGameExisting(query))
 {
-	Console.WriteLine($"Querying the input {query}");
-	Game game = await client.GetGame(query, true, true);
+    Console.WriteLine($"Querying the input '{query}'");
 
-	Console.WriteLine($"Name: {game.NameOriginal} - Rating: {game.Rating} - Image: {game.BackgroundImage}");
+    // Fetch detailed information about the game
+    Game game = await client.GetGame(query, true, true);
 
-	if (game.AreScreenshotsAvailable)
-	{
-		Console.WriteLine($"First screenshot: {game.Screenshots.First().Image}");
-	}
-	if (game.AreAchievementsAvailable)
-	{
-		Console.WriteLine($"First achievement: {game.Achievements.First().Name}");
-	}
+    Console.WriteLine($"Game Name: {game.NameOriginal}");
+    Console.WriteLine($"Rating: {game.Rating}");
+    Console.WriteLine($"Background Image: {game.BackgroundImage}");
+    Console.WriteLine($"Metacritic Score: {game.Metacritic}");
+    Console.WriteLine($"Release Date: {game.Released}");
+    Console.WriteLine($"Platforms: {string.Join(", ", game.Platforms.Select(p => p.Platform.Name))}");
+
+    if (game.AreScreenshotsAvailable)
+    {
+        Console.WriteLine($"First Screenshot: {game.Screenshots.First().Image}");
+    }
+
+    if (game.AreAchievementsAvailable)
+    {
+        Console.WriteLine($"First Achievement: {game.Achievements.First().Name}");
+    }
 }
 else
 {
-	Console.WriteLine("Game does not exist!");
+    Console.WriteLine("Game does not exist!");
 }
-
-Console.WriteLine();
-
-string SomeExistingCreatorsId = "444";
-Creator cr = await client.GetCreator(SomeExistingCreatorsId);
-
-Console.WriteLine($"The creator with id {SomeExistingCreatorsId}");
-Console.WriteLine($"Name: {cr.Name} - Image: {cr.Image}");
 ```
 
 ## FAQ

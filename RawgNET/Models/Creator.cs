@@ -14,7 +14,7 @@ namespace RawgNET.Models
         public Uri Previous { get; set; }
 
         [JsonProperty("results", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Creator> Creators { get; set; }
+        public IEnumerable<Creator> Creators { get; set; }
     }
 
     public partial class Creator
@@ -38,10 +38,10 @@ namespace RawgNET.Models
         public long? GamesCount { get; set; }
 
         [JsonProperty("positions", NullValueHandling = NullValueHandling.Ignore)]
-        public List<ShortGame> Positions { get; set; }
+        public IEnumerable<ShortGame> Positions { get; set; }
 
         [JsonProperty("games", NullValueHandling = NullValueHandling.Ignore)]
-        public List<ShortGame> Games { get; set; }
+        public IEnumerable<ShortGame> Games { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public bool IsCreatorExisting { get; set; }

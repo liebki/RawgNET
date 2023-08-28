@@ -9,5 +9,6 @@
         CreatorList = 4,
         Creator = 5,
         NotFound = 6,
+        OtherPage = 7
     }
 }

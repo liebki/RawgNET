@@ -5,9 +5,12 @@ namespace RawgNET.Models
     public class Game
     {
         public bool AreAchievementsAvailable { get; set; }
-        public List<Achievement>? Achievements { get; set; }
+
+        public IEnumerable<Achievement>? Achievements { get; set; }
+
         public bool AreScreenshotsAvailable { get; set; }
-        public List<Screenshot>? Screenshots { get; set; }
+
+        public IEnumerable<Screenshot>? Screenshots { get; set; }
 
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
@@ -28,7 +31,7 @@ namespace RawgNET.Models
         public long? Metacritic { get; set; }
 
         [JsonProperty("metacritic_platforms", NullValueHandling = NullValueHandling.Ignore)]
-        public List<MetacriticPlatform> MetacriticPlatforms { get; set; }
+        public IEnumerable<MetacriticPlatform> MetacriticPlatforms { get; set; }
 
         [JsonProperty("released", NullValueHandling = NullValueHandling.Ignore)]
         public DateTimeOffset? Released { get; set; }
@@ -55,7 +58,7 @@ namespace RawgNET.Models
         public long? RatingTop { get; set; }
 
         [JsonProperty("ratings", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Rating> Ratings { get; set; }
+        public IEnumerable<Rating> Ratings { get; set; }
 
         [JsonProperty("reactions", NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, long> Reactions { get; set; }
@@ -115,7 +118,7 @@ namespace RawgNET.Models
         public long? SuggestionsCount { get; set; }
 
         [JsonProperty("alternative_names", NullValueHandling = NullValueHandling.Ignore)]
-        public List<string> AlternativeNames { get; set; }
+        public IEnumerable<string> AlternativeNames { get; set; }
 
         [JsonProperty("metacritic_url", NullValueHandling = NullValueHandling.Ignore)]
         public Uri MetacriticUrl { get; set; }
@@ -142,25 +145,25 @@ namespace RawgNET.Models
         public string DominantColor { get; set; }
 
         [JsonProperty("parent_platforms", NullValueHandling = NullValueHandling.Ignore)]
-        public List<ParentPlatform> ParentPlatforms { get; set; }
+        public IEnumerable<ParentPlatform> ParentPlatforms { get; set; }
 
         [JsonProperty("platforms", NullValueHandling = NullValueHandling.Ignore)]
-        public List<PlatformElement> Platforms { get; set; }
+        public IEnumerable<PlatformElement> Platforms { get; set; }
 
         [JsonProperty("stores", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Store> Stores { get; set; }
+        public IEnumerable<Store> Stores { get; set; }
 
         [JsonProperty("developers", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Developer> Developers { get; set; }
+        public IEnumerable<Developer> Developers { get; set; }
 
         [JsonProperty("genres", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Developer> Genres { get; set; }
+        public IEnumerable<Developer> Genres { get; set; }
 
         [JsonProperty("tags", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Developer> Tags { get; set; }
+        public IEnumerable<Developer> Tags { get; set; }
 
         [JsonProperty("publishers", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Developer> Publishers { get; set; }
+        public IEnumerable<Developer> Publishers { get; set; }
 
         [JsonProperty("esrb_rating", NullValueHandling = NullValueHandling.Ignore)]
         public EsrbRating EsrbRating { get; set; }
@@ -324,19 +327,19 @@ namespace RawgNET.Models
             {
                 if (this.Minimum.Contains("OS:"))
                 {
-                    this.MinimumValues.Add("OS", CleanString(this.Minimum.Split("OS:")[1].Split("Processor:")[0]));
+                    this.MinimumValues.Add("OS", ClearString(this.Minimum.Split("OS:")[1].Split("Processor:")[0]));
                 }
                 if (this.Minimum.Contains("Processor:"))
                 {
-                    this.MinimumValues.Add("CPU", CleanString(this.Minimum.Split("Processor:")[1].Split("Memory:")[0]));
+                    this.MinimumValues.Add("CPU", ClearString(this.Minimum.Split("Processor:")[1].Split("Memory:")[0]));
                 }
                 if (this.Minimum.Contains("Memory:"))
                 {
-                    this.MinimumValues.Add("RAM", CleanString(this.Minimum.Split("Memory:")[1].Split("Graphics:")[0]));
+                    this.MinimumValues.Add("RAM", ClearString(this.Minimum.Split("Memory:")[1].Split("Graphics:")[0]));
                 }
                 if (this.Minimum.Contains("Graphics:"))
                 {
-                    string GpuValue = CleanString(this.Minimum.Split("Graphics:")[1].Split("Storage:")[0]);
+                    string GpuValue = ClearString(this.Minimum.Split("Graphics:")[1].Split("Storage:")[0]);
                     if (GpuValue.Contains("DirectX:", StringComparison.InvariantCultureIgnoreCase))
                     {
                         this.MinimumValues.Add("GPU", GpuValue.Split("DirectX:")[0]);
@@ -348,7 +351,7 @@ namespace RawgNET.Models
                 }
                 if (this.Minimum.Contains("Storage:"))
                 {
-                    this.MinimumValues.Add("STORAGE", CleanString(this.Minimum.Split("Storage:")[1].Split("available space")[0].Trim()));
+                    this.MinimumValues.Add("STORAGE", ClearString(this.Minimum.Split("Storage:")[1].Split("available space")[0].Trim()));
                 }
             }
 
@@ -364,19 +367,19 @@ namespace RawgNET.Models
             {
                 if (this.Recommended.Contains("OS:"))
                 {
-                    this.RecommendedValues.Add("OS", CleanString(this.Recommended.Split("OS:")[1].Split("Processor:")[0]));
+                    this.RecommendedValues.Add("OS", ClearString(this.Recommended.Split("OS:")[1].Split("Processor:")[0]));
                 }
                 if (this.Recommended.Contains("Processor:"))
                 {
-                    this.RecommendedValues.Add("CPU", CleanString(this.Recommended.Split("Processor:")[1].Split("Memory:")[0]));
+                    this.RecommendedValues.Add("CPU", ClearString(this.Recommended.Split("Processor:")[1].Split("Memory:")[0]));
                 }
                 if (this.Recommended.Contains("Memory:"))
                 {
-                    this.RecommendedValues.Add("RAM", CleanString(this.Recommended.Split("Memory:")[1].Split("Graphics:")[0]));
+                    this.RecommendedValues.Add("RAM", ClearString(this.Recommended.Split("Memory:")[1].Split("Graphics:")[0]));
                 }
                 if (this.Recommended.Contains("Graphics:"))
                 {
-                    string GpuValue = CleanString(this.Recommended.Split("Graphics:")[1].Split("Storage:")[0]);
+                    string GpuValue = ClearString(this.Recommended.Split("Graphics:")[1].Split("Storage:")[0]);
                     if (GpuValue.Contains("DirectX:", StringComparison.InvariantCultureIgnoreCase))
                     {
                         this.RecommendedValues.Add("GPU", GpuValue.Split("DirectX:")[0]);
@@ -388,15 +391,15 @@ namespace RawgNET.Models
                 }
                 if (this.Recommended.Contains("Storage:"))
                 {
-                    this.RecommendedValues.Add("STORAGE", CleanString(this.Recommended.Split("Storage:")[1].Split("available space")[0].Trim()));
+                    this.RecommendedValues.Add("STORAGE", ClearString(this.Recommended.Split("Storage:")[1].Split("available space")[0].Trim()));
                 }
             }
             return RecommendedValues;
         }
 
-        private static string CleanString(string requirementString)
+        private static string ClearString(string stringInput)
         {
-            return requirementString.Replace("\n", string.Empty).Replace("\r", string.Empty).Replace(Environment.NewLine, string.Empty);
+            return stringInput.Replace("\n", string.Empty).Replace("\r", string.Empty).Replace(Environment.NewLine, string.Empty);
         }
     }
 
