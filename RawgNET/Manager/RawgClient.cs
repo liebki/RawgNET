@@ -68,6 +68,14 @@ namespace RawgNET.Manager
         }
 
         /// <summary>
+        /// Get all available stores which sell games
+        /// </summary>
+        public async Task<Store[]> GetAllGameStores()
+        {
+            return await RawgManager.GetAllGameStores(_options.Key);
+        }
+
+        /// <summary>
         /// Gets detailed information about a specific creator.
         /// </summary>
         /// <param name="creatorid">The ID of the creator.</param>

@@ -244,6 +244,26 @@ namespace RawgNET.Manager
 
         #endregion Game
 
+        #region Store
+
+        internal static async Task<Store[]> GetAllGameStores(string rawgkey)
+        {
+            string RawgRequestUrl = CreateUtilQueryUrls(rawgkey);
+            string WebResponseAsJson = string.Empty;
+
+            using (HttpClient Client = new())
+            {
+                Task<HttpResponseMessage> TaskResponse = Client.GetAsync(RawgRequestUrl);
+                TaskResponse.Wait();
+
+                WebResponseAsJson = await TaskResponse.Result.Content.ReadAsStringAsync();
+            }
+
+            return DeserializeJsonToObject<StoreResult>(WebResponseAsJson).StoreList;
+        }
+
+        #endregion Store
+
         #region Stuff
 
         private static async Task<IEnumerable<TItem>> QueryEverything<TResponse, TItem>(TResponse queryResult, List<TItem> itemList) where TResponse : BaseResult<TItem>
@@ -334,6 +354,12 @@ namespace RawgNET.Manager
             }
 
             return $"{reqUrl}?key={rawgkey}";
+        }
+
+        private static string CreateUtilQueryUrls(string rawgkey)
+        {
+            string reqUrl = $"{BaseUrl}/stores?key={rawgkey}";
+            return reqUrl;
         }
 
         /// <summary>

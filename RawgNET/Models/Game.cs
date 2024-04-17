@@ -151,7 +151,7 @@ namespace RawgNET.Models
         public IEnumerable<PlatformElement> Platforms { get; set; }
 
         [JsonProperty("stores", NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<Store> Stores { get; set; }
+        public IEnumerable<GameStore> Stores { get; set; }
 
         [JsonProperty("developers", NullValueHandling = NullValueHandling.Ignore)]
         public IEnumerable<Developer> Developers { get; set; }
@@ -223,6 +223,11 @@ namespace RawgNET.Models
 
         [JsonProperty("language", NullValueHandling = NullValueHandling.Ignore)]
         public Language? Language { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 
     public partial class EsrbRating
@@ -403,7 +408,7 @@ namespace RawgNET.Models
         }
     }
 
-    public partial class Store
+    public partial class GameStore
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
@@ -413,6 +418,7 @@ namespace RawgNET.Models
 
         [JsonProperty("store", NullValueHandling = NullValueHandling.Ignore)]
         public Developer StoreStore { get; set; }
+
     }
 
     public enum Language
