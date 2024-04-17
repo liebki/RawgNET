@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.2</Version>
+    <Version>0.2.1</Version>
     <Title>RawgNet</Title>
     <Authors>liebki</Authors>
     <Copyright>liebki (the api and data belongs to rawg)</Copyright>
@@ -12,16 +12,16 @@
     <RepositoryUrl>https://github.com/liebki/RawgNET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Description>A wrapper for wrag.io, to get data of games, platforms, creators etc.</Description>
+    <Description>A .NET wrapper for wrag.io, to get interesting data of games, platforms, creators, stores etc.</Description>
     <IncludeSymbols>False</IncludeSymbols>
     <PackageIcon>uxwing-icon.png</PackageIcon>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageTags>rawg.io, wrapper, core, dotnet, api, wrapper, gaming</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes></PackageReleaseNotes>
-    <FileVersion>0.2</FileVersion>
-    <AssemblyVersion>0.2</AssemblyVersion>
+    <PackageReleaseNotes>Added a new method to get all stores which sell games and the games on the storefront</PackageReleaseNotes>
+    <FileVersion>0.2.1</FileVersion>
+    <AssemblyVersion>0.2.1</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
