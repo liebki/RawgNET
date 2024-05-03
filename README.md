@@ -1,6 +1,8 @@
 # RawgNET
 A wrapper for the API of rawg.io, to get a game or creator including all their data.
 
+<img src="https://www.startuplithuania.com/wp-content/uploads/2018/10/Rawg-promo-cover.png" height="250">
+
 ## Technologies
 
 ### Created using
